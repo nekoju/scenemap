@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 
+import os 
+
+from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-
-import secrets
-
 
 # Notes
 # I have no idea if this works. Currently not opening a browser window.
 class Spot:
     def __init__(self):
-        client_secret = secrets.client_secret
-        client_id = secrets.client_id
-        redirect_uri = "http://localhost:8000"
+        load_dotenv()
+        client_secret = os.getenv("client_secret")
+        client_id = os.getenv("client_id")
+        redirect_uri = os.getenv("redirect_uri")
         scope = "user-library-read user-read-playback-state user-read-recently-played"
         self.session = spotipy.Spotify(
             auth_manager=SpotifyOAuth(
