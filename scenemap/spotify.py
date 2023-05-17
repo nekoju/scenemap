@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 import os 
-
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-# Notes
-# I have no idea if this works. Currently not opening a browser window.
 class Spot:
+    """
+        Primary spotify object.
+    """
     def __init__(self):
         load_dotenv()
         client_secret = os.getenv("client_secret")
@@ -25,6 +25,24 @@ class Spot:
             )
         )
         return None
+
+    def get_albums(self, *args, **kwargs):
+        """
+            Get all user albums.
+        """
+        # Handle kwarg defaults
+        try:
+            limit = kwargs["limit"]
+        except KeyError:
+            limit = 50
+        breakpoint()
+        out = self.session.current_user_saved_albums(limit=limit)
+        albums = out["items"]
+        while out["next"]:
+            out = self.session.next(out)
+            albums.extend(out["items"])
+        return albums
+
 
 
 def main():
