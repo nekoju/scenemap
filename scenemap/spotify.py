@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os 
+import re
 import requests
 from dotenv import load_dotenv
 
@@ -75,7 +76,8 @@ class Spot:
         }
 
         # Scrape current members
-        current_members_section = soup.find('th', text='Members')
+        current_members_regex = re.compile(r"^(Current )?Members")
+        current_members_section = soup.find('th', text=current_members_regex)
         if current_members_section:
             for sibling in current_members_section.find_next_siblings('td'):
                 links = sibling.find_all('a')
@@ -98,11 +100,14 @@ class Spot:
                 for link in links:
                     artist_details['associated_acts'].append(link.text)
 
+        print(f"{artist_name}: done")
         return artist_details
 
 def main():
     session = Spot()
     artists = session._get_artists()
+    for artist in artists:
+        artists[artist] = session.get_artist_details(artist)
     breakpoint()
 
 
