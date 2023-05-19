@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import itertools as it
 import os 
 import re
 import requests
@@ -118,7 +119,14 @@ def main():
 
     # with open("out.pickle", "rb") as file:
     #     pickle.load(file)
-    ng = NetworkGraph(artists)
+
+    artists_sparse = {}
+    for artist_name, artist_attr in artists.items():
+        if len(list(it.chain(*artist_attr.values()))) != 0:
+            artists_sparse[artist_name] = artist_attr
+        
+
+    ng = NetworkGraph(artists_sparse)
     g = ng.generate_graph()
     colors = {
         "artist": "black",
@@ -130,8 +138,8 @@ def main():
     for node in g.nodes:
         colors_list.append(colors[g.nodes[node]["attr_type"]])
 
+    nx.draw_networkx(g, node_color = colors_list)
     breakpoint()
-    nx.draw_networkx(g)
 
 
 if __name__ == "__main__":
