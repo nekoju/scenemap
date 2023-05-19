@@ -8,3 +8,7 @@
 - Vizualization
 - Dashboard
 - CSS
+
+# BUGS
+
+- Reading "Joe Strummer and the Mescaleros" as two artists.
