@@ -100,15 +100,38 @@ class Spot:
                 for link in links:
                     artist_details['associated_acts'].append(link.text)
 
-        print(f"{artist_name}: done")
+        print(f"{artist_name}: {artist_details}")
         return artist_details
 
 def main():
+    import matplotlib.pyplot as plt
+    import networkx as nx
+    from plots import NetworkGraph
+    import pickle
     session = Spot()
     artists = session._get_artists()
+
     for artist in artists:
         artists[artist] = session.get_artist_details(artist)
+    with open("out.pickle", "wb") as file:
+        pickle.dump(artists, file)
+
+    # with open("out.pickle", "rb") as file:
+    #     pickle.load(file)
+    ng = NetworkGraph(artists)
+    g = ng.generate_graph()
+    colors = {
+        "artist": "black",
+        "associated_acts": "blue",
+        "former_members": "red",
+        "current_members": "green",
+    }
+    colors_list = []
+    for node in g.nodes:
+        colors_list.append(colors[g.nodes[node]["attr_type"]])
+
     breakpoint()
+    nx.draw_networkx(g)
 
 
 if __name__ == "__main__":
