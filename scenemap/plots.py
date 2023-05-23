@@ -15,14 +15,14 @@ class NetworkGraph:
         for artist_name, artist_details in self.artist_data.items():
             print(f"adding artist: {artist_name}")
             g.add_node(artist_name, attr_type="artist")
-            nodes_to_add = []
             for attribute_name, attribute in artist_details.items():
                 if not draw_attrs or attribute in draw_attrs:
-                    for name_x in attribute:
-                        nodes_to_add.append(name_x)
-                        g.add_node(name_x, attr_type=attribute_name)
-                        print(f"adding {attribute_name}: {name_x}")
-                        g.add_edge(*(artist_name, name_x))
+                    if attribute:
+                        for name_x in attribute:
+                            if name_x:
+                                g.add_node(name_x, attr_type=attribute_name)
+                                print(f"adding {attribute_name}: {name_x}")
+                                g.add_edge(*(artist_name, name_x))
         return g
         
 
