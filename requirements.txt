@@ -1,0 +1,7 @@
+beautifulsoup4==4.12.2
+matplotlib==3.7.1
+networkx==3.1
+plotly==5.14.1
+python-dotenv==1.0.0
+Requests==2.31.0
+spotipy==2.23.0
