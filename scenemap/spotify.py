@@ -68,7 +68,7 @@ class Spot:
 
     @staticmethod
     def get_artist_details(artist_name):
-        if artist_name == "Starflyer 59":
+        if artist_name == "Park Jefferson":
             breakpoint()
         url = Spot.search(artist_name)
         print(url)
