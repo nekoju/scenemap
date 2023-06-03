@@ -18,7 +18,7 @@ class NetworkGraph:
             for attribute_name, attribute in artist_details.items():
                 if not draw_attrs or attribute in draw_attrs:
                     if attribute:
-                        for name_x in attribute:
+                        for name_x in attribute["vals"]:
                             if name_x:
                                 g.add_node(name_x, attr_type=attribute_name)
                                 print(f"adding {attribute_name}: {name_x}")
