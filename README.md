@@ -4,7 +4,8 @@ Nerdy data vizualizations for your Spotify library
 I started this project after becoming sort of fascinated at the breadth of
 musical influence specifically of some involved in metalcore scene at the turn of
 the millenium, and then a broader question of just how incestuous my musical
-family treee was.
+family tree was. I pick at it when I have time and inclination. Eventually it will
+be implemented as a flashy [Dash](https://dash.plotly.com) app.
 
 ![An interesting cluster](./Figures/cluster_1.png)
 
