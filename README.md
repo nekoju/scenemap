@@ -8,13 +8,18 @@ family tree was. There is a tremendous diversity of musical data that have reall
 begun to be examined on Wikipedia, just waiting to be scraped. I pick at this 
 project when I have time and inclination. Eventually it will be implemented as a
 flashy [Dash](https://dash.plotly.com) app and have an increasingly quantitative
-focus.
+focus, but for now it exists as a proof of concept and isn't really guaranteed to
+work well.
 
 ![An interesting cluster](./Figures/cluster_1.png)
 
 How to try it:
-- Grab an api key from developer.spotify.com
+- Grab an api key from developer.spotify.com--you might also need to create an app (see below)
+
+![Spotify Dashboard showing app creation](./Figures/spotify_app.png)
+
 - Paste in `scenemap/.env` like so:
+
 ```
 #!/usr/bin/env python3
 
@@ -22,10 +27,8 @@ client_secret = "YOURSECERT"
 client_id = "YOURID"
 redirect_uri = "https://localhost:8080"
 ```
+
 - Run `python3 scenemap/spotify.py` and paste in the redirect when prompted
-- Hopefully this will work for others; it seems Spotify has maybe changed
-  auth to require your account to be on the developer dashboard, so reach out
-  if you'd like to try it while I'm still developing.
 - The software will do its thing then present you with a breakpoint, at which
   point you can run `plt.show()` to look at the graph and use the buttons on the
   toolbar to zoom around. Have fun!
