@@ -68,13 +68,15 @@ class Spot:
 
     @staticmethod
     def get_artist_details(artist_name):
+        valid_artist_regex = re.compile(r"[\S]")
         url = Spot.search(artist_name)
-        print(url)
+        print(f"{artist_name}: {url}" if url else f"no Wikipedia record for {artist_name}")
         artist_details = {
-            "current_members": [],
-            "former_members": [],
-            "associated_acts": [],
+            "members": {"regex": re.compile(r"^(Current )?(M|m)embers"), "vals": []},
+            "former_members": {"regex": re.compile(r"Former members"), "vals": []},
+            "associated_acts": {"regex": re.compile(r"Associated acts"), "vals": []},
         }
+        
         try:
             response = requests.get(url)
             soup = BeautifulSoup(response.text, "html.parser")
@@ -82,22 +84,15 @@ class Spot:
             print(f"No meta results for {artist_name}")
             return artist_details
 
-        # Scrape current members
-        current_members_regex = re.compile(r"(M|m)embers")
-        current_members_section = soup.find("th", text=current_members_regex)
-        if current_members_section:
-            for sibling in current_members_section.find_next_siblings("td"):
-                links = sibling.get_text().split("\n")
-                for link in links:
-                    artist_details["current_members"].append(link)
-
-        # Scrape associated acts
-        associated_acts_section = soup.find("th", text="Associated acts")
-        if associated_acts_section:
-            for sibling in associated_acts_section.find_next_siblings("td"):
-                links = sibling.get_text().split("\n")
-                for link in links:
-                    artist_details["associated_acts"].append(link)
+        for key, value in artist_details.items():
+            # Scrape current members
+            section = soup.find("th", text=value["regex"])
+            if section:
+                for sibling in section.find_next_siblings("td"):
+                    links = it.chain(*[a.get_text().split("\n") for a in sibling])
+                    for link in links:
+                        if valid_artist_regex.match(link):
+                            value["vals"].append(link)
 
         print(f"{artist_name}: done")
         return artist_details
@@ -147,18 +142,13 @@ def main():
     # with open("out.pickle", "rb") as file:
     #     pickle.load(file)
 
-    artists_sparse = {}
-    for artist_name, artist_attr in artists.items():
-        if list(it.chain(artist_attr.values())):
-            artists_sparse[artist_name] = artist_attr
-
-    ng = NetworkGraph(artists_sparse)
+    ng = NetworkGraph(artists)
     g = ng.generate_graph()
     colors = {
         "artist": "black",
         "associated_acts": "blue",
         "former_members": "red",
-        "current_members": "green",
+        "members": "green",
     }
     colors_list = []
     for node in g.nodes:

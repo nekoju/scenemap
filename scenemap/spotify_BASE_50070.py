@@ -68,6 +68,8 @@ class Spot:
 
     @staticmethod
     def get_artist_details(artist_name):
+        if artist_name == "Starflyer 59":
+            breakpoint()
         url = Spot.search(artist_name)
         print(url)
         artist_details = {
@@ -83,13 +85,22 @@ class Spot:
             return artist_details
 
         # Scrape current members
-        current_members_regex = re.compile(r"(M|m)embers")
+        current_members_regex = re.compile(r"^(Current )?Members")
         current_members_section = soup.find("th", text=current_members_regex)
         if current_members_section:
             for sibling in current_members_section.find_next_siblings("td"):
                 links = sibling.get_text().split("\n")
                 for link in links:
                     artist_details["current_members"].append(link)
+
+        # Scrape former members
+        former_members_section = soup.find("th", text="Past members")
+        if former_members_section:
+            for sibling in former_members_section.find_next_siblings("td"):
+                # Firugre out how to wrk with list items here.
+                links = sibling.get_text().split("\n")
+                for link in links:
+                    artist_details["former_members"].append(link)
 
         # Scrape associated acts
         associated_acts_section = soup.find("th", text="Associated acts")
