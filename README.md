@@ -18,8 +18,10 @@ How to try it:
 
 ![Spotify Dashboard showing app creation](./Figures/spotify_app.png)
 
-- Paste in `scenemap/.env` like so:
-
+- Make sure you have python and run the following commands somewhere:
+  - `git clone https://github.com/nekoju/scenemap.git`
+  - `cd Scenemap`
+- Paste in `<some-directory>/Scenemap/scenemap/.env` like so:
 ```
 #!/usr/bin/env python3
 
@@ -27,9 +29,8 @@ client_secret = "YOURSECERT"
 client_id = "YOURID"
 redirect_uri = "https://localhost:8080"
 ```
-
 - Run `python3 scenemap/spotify.py` and paste in the redirect when prompted
 - The software will do its thing then present you with a breakpoint, at which
   point you can run `plt.show()` to look at the graph and use the buttons on the
-  toolbar to zoom around. Have fun!
+  toolbar to zoom around. This is very early and nothing is guaranteed to work! Have fun!
 
